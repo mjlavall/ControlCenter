@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Microsoft.EntityFrameworkCore;
 
 namespace ControlCenter
 {
@@ -30,6 +31,10 @@ namespace ControlCenter
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+            using (var db = new Models.ApplicationDbContext())
+            {
+                db.Database.Migrate();
+            }
         }
 
         /// <summary>
