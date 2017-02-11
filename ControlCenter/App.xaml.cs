@@ -5,8 +5,11 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -14,6 +17,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using ControlCenter.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace ControlCenter
@@ -31,9 +35,37 @@ namespace ControlCenter
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+
             using (var db = new Models.ApplicationDbContext())
             {
                 db.Database.Migrate();
+            }
+
+            SeedData();
+        }
+
+        private void SeedData()
+        {
+            var units = new List<string>
+            {
+                "ea",
+                "oz",
+                "cup",
+                "lb",
+                "pkg",
+                "box"
+            };
+
+            using (var db = new Models.ApplicationDbContext())
+            {
+                foreach (var unit in units)
+                {
+                    if (!db.ShoppingUnits.Any(u => u.Name == unit))
+                    {
+                        db.ShoppingUnits.Add(new ShoppingUnit {Name = unit});
+                    }
+                }
+                db.SaveChanges();
             }
         }
 

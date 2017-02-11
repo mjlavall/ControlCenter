@@ -8,32 +8,38 @@ using System.Threading.Tasks;
 
 namespace ControlCenter.Models
 {
-    public class GroceryList
+    public class ShoppingList
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
-        public virtual ICollection<GroceryItem> Items { get; set; }
         public string Title { get; set; }
         public DateTime Created { get; set; }
     }
 
-    public class GroceryItem
+    public class ShoppingItem
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
         public string Name { get; set; }
         public int Count { get; set; }
-        public virtual GroceryUnit Unit { get; set; }
+        public string Unit { get; set; }
         public bool Complete { get; set; }
+        public Guid ShoppingListId { get; set; }
+        public virtual ShoppingList ShoppingList { get; set; }
     }
 
-    public class GroceryUnit
+    public class ShoppingUnit
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
         public string Name { get; set; }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

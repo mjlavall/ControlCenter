@@ -4,10 +4,13 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.System.Threading;
+using Windows.UI;
 using Windows.UI.Core;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -29,9 +32,25 @@ namespace ControlCenter
         public MainPage()
         {
             this.InitializeComponent();
+            ApplicationViewTitleBar formattableTitleBar = ApplicationView.GetForCurrentView().TitleBar;
+            formattableTitleBar.ButtonBackgroundColor = Colors.Transparent;
+            CoreApplicationViewTitleBar coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
+            coreTitleBar.ExtendViewIntoTitleBar = true;
+
+            ListRect.Height = ListPanel.ActualHeight;
             Date.Text = DateTime.Now.ToString("dddd, MMMM dd");
             Time.Text = DateTime.Now.ToString("h:mm:ss tt");
             _clockTimer = ThreadPoolTimer.CreatePeriodicTimer(_clockTimer_Tick, TimeSpan.FromMilliseconds(1000));
+        }
+
+        private void OnLoad(object sender, RoutedEventArgs e)
+        {
+            ListRect.Height = this.ActualHeight - (ListRect.Margin.Bottom*2);
+        }
+
+        private void WindowResized(object sender, RoutedEventArgs e)
+        {
+            ListRect.Height = this.ActualHeight - (ListRect.Margin.Bottom * 2);
         }
 
         private async void _clockTimer_Tick(ThreadPoolTimer timer)
@@ -44,14 +63,14 @@ namespace ControlCenter
              });
         }
 
-        private void button_GroceryList_Click(object sender, RoutedEventArgs e)
+        private void button_ShoppingLists_Click(object sender, RoutedEventArgs e)
         {
-            this.Frame.Navigate(typeof(GroceryList));
+            this.Frame.Navigate(typeof(ShoppingList));
         }
 
-        private void button_TodoList_Click(object sender, RoutedEventArgs e)
+        private void button_TodoLists_Click(object sender, RoutedEventArgs e)
         {
-            Time.Text = "Hello";
+            this.Frame.Navigate(typeof(TodoList));
         }
 
 

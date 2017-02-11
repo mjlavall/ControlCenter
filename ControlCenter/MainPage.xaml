@@ -5,18 +5,25 @@
     xmlns:local="using:ControlCenter"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
-    <RelativePanel>
+    mc:Ignorable="d"
+    Loaded="OnLoad"
+    SizeChanged="WindowResized">
+    <RelativePanel Name ="ListPanel">
+        <RelativePanel.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FF943232" Offset="1"/>
+                <GradientStop Color="#FF642A2A"/>
+            </LinearGradientBrush>
+        </RelativePanel.Background>
+        <Rectangle Name="ListRect" Fill="Transparent" HorizontalAlignment="Left" Margin="5" Height="700" Stroke="#7F000000" StrokeThickness="2" VerticalAlignment="Top" Width="520"/>
         <VariableSizedWrapGrid Name="ButtonList" Orientation="Horizontal" HorizontalChildrenAlignment="Left" Margin="10" Width="510" HorizontalAlignment="Left">
-            <Button x:Name="button_GroceryList" Content="Grocery List" Height="150"  Width="150" FontSize="24" Margin="10" Click="button_GroceryList_Click" />
-            <Button x:Name="button_TodoList" Content="To-do List" Height="150"  Width="150" FontSize="24" Margin="10" Click="button_TodoList_Click" />
-        
+            <Button x:Name="button_ShoppingLists" Content="Shopping" Height="150"  Width="150" FontSize="24" Margin="10" Click="button_ShoppingLists_Click" Foreground="White" />
+            <Button x:Name="button_TodoLists" Content="To-do" Height="150"  Width="150" FontSize="24" Margin="10" Click="button_TodoLists_Click" Foreground="White" />
+
         </VariableSizedWrapGrid>
         <VariableSizedWrapGrid Orientation="Vertical" VerticalChildrenAlignment="Top" Margin="10" Width="Auto" RelativePanel.RightOf="ButtonList">
-            <TextBlock Name="Date" Text="Date" Margin="10" FontSize="36"></TextBlock>
-            <TextBlock Name="Time" Text="Time" Margin="10" FontSize="30"></TextBlock>
+            <TextBlock Name="Date" Text="Date" Margin="10" FontSize="36" FocusVisualPrimaryBrush="White" Foreground="White"></TextBlock>
+            <TextBlock Name="Time" Text="Time" Margin="10" FontSize="30" Foreground="White" FocusVisualPrimaryBrush="White"></TextBlock>
         </VariableSizedWrapGrid>
-
     </RelativePanel>
-
 </Page>

@@ -8,15 +8,15 @@ using ControlCenter.Models;
 namespace ControlCenter.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170210213944_MyFirstMigration")]
-    partial class MyFirstMigration
+    [Migration("20170211084845_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.0-rtm-22752");
 
-            modelBuilder.Entity("ControlCenter.Models.GroceryItem", b =>
+            modelBuilder.Entity("ControlCenter.Models.ShoppingItem", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -25,22 +25,20 @@ namespace ControlCenter.Migrations
 
                     b.Property<int>("Count");
 
-                    b.Property<Guid?>("GroceryListId");
-
                     b.Property<string>("Name");
 
-                    b.Property<Guid?>("UnitId");
+                    b.Property<Guid>("ShoppingListId");
+
+                    b.Property<string>("Unit");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("GroceryListId");
+                    b.HasIndex("ShoppingListId");
 
-                    b.HasIndex("UnitId");
-
-                    b.ToTable("GroceryItem");
+                    b.ToTable("ShoppingItems");
                 });
 
-            modelBuilder.Entity("ControlCenter.Models.GroceryList", b =>
+            modelBuilder.Entity("ControlCenter.Models.ShoppingList", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -51,10 +49,10 @@ namespace ControlCenter.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("GroceryLists");
+                    b.ToTable("ShoppingLists");
                 });
 
-            modelBuilder.Entity("ControlCenter.Models.GroceryUnit", b =>
+            modelBuilder.Entity("ControlCenter.Models.ShoppingUnit", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -63,18 +61,15 @@ namespace ControlCenter.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("GroceryUnit");
+                    b.ToTable("ShoppingUnits");
                 });
 
-            modelBuilder.Entity("ControlCenter.Models.GroceryItem", b =>
+            modelBuilder.Entity("ControlCenter.Models.ShoppingItem", b =>
                 {
-                    b.HasOne("ControlCenter.Models.GroceryList")
-                        .WithMany("Items")
-                        .HasForeignKey("GroceryListId");
-
-                    b.HasOne("ControlCenter.Models.GroceryUnit", "Unit")
+                    b.HasOne("ControlCenter.Models.ShoppingList", "ShoppingList")
                         .WithMany()
-                        .HasForeignKey("UnitId");
+                        .HasForeignKey("ShoppingListId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
         }
     }
